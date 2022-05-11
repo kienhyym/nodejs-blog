@@ -15,7 +15,6 @@ app.use(morgan('combined'))
 
 //public file
 app.use(express.static(path.join(__dirname, 'public')))
-
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
