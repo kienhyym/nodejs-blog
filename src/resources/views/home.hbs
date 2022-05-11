@@ -1,0 +1,16 @@
+<div>
+    <h1>Example App: Home</h1>
+    <div class='row'>
+        {{#each courses}}
+            <div class='col-4'>
+                <a href='/course/{{this.slug}}'>
+                    <img src={{this.image}} class='img-fluid' alt='...' />
+
+                </a>
+
+                <p>{{this.name}}</p>
+                <p>{{this.description}}</p>
+            </div>
+        {{/each}}
+    </div>
+</div>
