@@ -10,5 +10,16 @@ class CoursesController {
             })
             .catch(next)
     }
+    create(req, res, next) {
+        res.render('course/create')
+    }
+    store(req, res, next) {
+        const formdata = req.body
+        const course = new Courses(formdata)
+        course
+            .save()
+            .then(() => res.redirect('/'))
+            .catch(next)
+    }
 }
 module.exports = new CoursesController()
