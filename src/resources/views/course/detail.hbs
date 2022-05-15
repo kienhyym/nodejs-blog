@@ -1,0 +1,26 @@
+<p>Chỉnh sửa</p>
+<form class='col g-3 m-5' action='{{course.slug}}/update' method='POST'>
+    <div class='col-auto mt-2'>
+        <label for='inputPassword2'>name</label>
+        <input
+            name='name'
+            value='{{course.name}}'
+            class='form-control'
+            id='inputPassword2'
+            placeholder='name'
+        />
+    </div>
+    <div class='col-auto mt-2'>
+        <label for='inputPassword2'>description</label>
+        <input
+            name='description'
+            value='{{course.description}}'
+            class='form-control'
+            id='inputPassword2'
+            placeholder='description'
+        />
+    </div>
+    <div class='col-auto mt-2'>
+        <button type='submit' class='btn btn-primary mb-3'>Confirm identity</button>
+    </div>
+</form>
