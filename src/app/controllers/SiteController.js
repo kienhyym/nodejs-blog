@@ -12,6 +12,12 @@ class SiteController {
     search(req, res) {
         res.render('search')
     }
+    about(req, res) {
+        res.render('about')
+    }
+    help(req, res) {
+        res.render('help')
+    }
 }
 
 module.exports = new SiteController()

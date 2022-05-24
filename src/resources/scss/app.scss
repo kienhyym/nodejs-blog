@@ -1,10 +1,4 @@
 @import 'variables';
-h1 {
-    color: aqua;
-}
-h2 {
-    color: $red-color;
-}
 .footer {
     position: absolute;
     bottom: 0px;
@@ -13,10 +7,24 @@ h2 {
     width: 100%;
     padding-top: 10px;
 }
+
 .footer p {
     text-align: center;
 }
+
 .detail {
     height: 50px;
     width: auto;
+}
+
+.not-found {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+.container-weather {
+    margin-top: 100px;
+    display: flex;
 }
