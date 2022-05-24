@@ -11,7 +11,9 @@ const port = process.env.port || 3000
 db.connect()
 
 // logger
-app.use(morgan('combined'))
+if (__dev__) {
+    app.use(morgan('combined'))
+}
 
 //public file
 app.use(express.static(path.join(__dirname, 'public')))
