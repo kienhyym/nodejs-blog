@@ -11,7 +11,7 @@ const port = process.env.port || 3000
 db.connect()
 
 // logger
-if (__dev__) {
+if (port === 3000) {
     app.use(morgan('combined'))
 }
 
