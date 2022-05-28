@@ -3,6 +3,7 @@ const User = require('../model/User')
 const addUser = async (req, res) => {
     try {
         const user = new User(req.body)
+        console.log(user)
         await user.save()
         return res.status(200).send(user)
     } catch (error) {

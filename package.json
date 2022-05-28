@@ -26,8 +26,10 @@
     "homepage": "https://github.com/kienhyym/nodejs-blog#readme",
     "dependencies": {
         "axios": "^0.27.2",
+        "bcryptjs": "^2.4.3",
         "express": "^4.18.1",
         "express-handlebars": "^6.0.5",
+        "jsonwebtoken": "^8.5.1",
         "mongoose": "^6.3.3",
         "morgan": "^1.10.0",
         "validator": "^13.7.0"
