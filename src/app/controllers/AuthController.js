@@ -6,10 +6,11 @@ const login = async (req, res) => {
             req.body.email,
             req.body.password
         )
+        console.log(user)
         const token = await user.generateAuthToken()
         return res.status(201).send({ user, token })
     } catch (error) {
-        return res.status(400).send(error)
+        return res.status(400).send({ error: error.message })
     }
 }
 const logout = async (req, res) => {
@@ -20,6 +21,7 @@ const logout = async (req, res) => {
         await req.user.save()
         return res.status(200).send(true)
     } catch (error) {
+        console.log(typeof error)
         return res.status(500).send(error)
     }
 }

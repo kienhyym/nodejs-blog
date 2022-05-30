@@ -1,3 +1,4 @@
+const { update } = require('../model/User')
 const User = require('../model/User')
 
 const addUser = async (req, res) => {
@@ -20,7 +21,8 @@ const getAllUsers = async (req, res) => {
 }
 const getUserbyID = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id)
+        console.log('req', req.user)
+        const user = await User.findById(req.user._id)
         return res.status(200).send(user)
     } catch (error) {
         return res.send(error)
@@ -34,11 +36,9 @@ const updateUserbyID = async (req, res) => {
         if (!isValidate) {
             return res.status(404).send({ error: 'param isvalidate' })
         }
-
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true,
-        })
+        const user = await User.findById(req.user._id)
+        updates.forEach((element) => (user[element] = req.body[element]))
+        await user.save()
         if (!user) {
             return res.status(404).send({ error: 'user not found ' })
         }
@@ -49,7 +49,7 @@ const updateUserbyID = async (req, res) => {
 }
 const deleteUserbyID = async (req, res) => {
     try {
-        const user = await User.findByIdAndDelete(req.params.id)
+        const user = await User.findByIdAndDelete(req.user._id)
         if (!user) {
             return res.status(404).send({ error: 'user not found ' })
         }

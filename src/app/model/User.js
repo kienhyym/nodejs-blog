@@ -50,20 +50,29 @@ UserSchema.methods.generateAuthToken = async function () {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() }, 'thisismynewcourse')
     user.tokens = user.tokens.concat({ token })
+    console.log('X_X_XX__XX_X_X_X_X_userToken', user)
     await user.save()
     return token
 }
+UserSchema.methods.toJSON = function () {
+    const user = this
+    const userObject = user.toObject()
+    delete userObject.password
+    delete userObject.tokens
+    return userObject
+}
 
 UserSchema.statics.findByCredentials = async (email, password) => {
-    console.log('req', email, password)
     const user = await User.findOne({ email })
-    console.log(user)
     if (!user) {
-        throw new Error('Unable login')
+        throw new Error({
+            name: 'error',
+            message: 'no account',
+        })
     }
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) {
-        throw new Error('Unable login')
+        throw new Error('uncorect password')
     }
     return user
 }
