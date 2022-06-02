@@ -2,43 +2,58 @@ const bcrypt = require('bcryptjs')
 const mongoose = require('mongoose')
 var validator = require('validator')
 const jwt = require('jsonwebtoken')
+const Course = require('../model/Course')
 
 const Schema = mongoose.Schema
 
-const UserSchema = new Schema({
-    name: {
-        type: String,
-    },
-    age: {
-        type: Number,
-        default: 0,
-    },
-    email: {
-        type: String,
-        unique: true,
-        required: true,
-        trim: true,
-        lowercase: true,
-        validate(value) {
-            if (!validator.isEmail(value)) {
-                throw new Error('email is validate')
-            }
+const UserSchema = new Schema(
+    {
+        name: {
+            type: String,
         },
-    },
-    password: {
-        type: String,
-        required: true,
-        minlength: 6,
-        trim: true,
-    },
-    tokens: [
-        {
-            token: {
-                type: String,
+        age: {
+            type: Number,
+            default: 0,
+        },
+        email: {
+            type: String,
+            unique: true,
+            required: true,
+            trim: true,
+            lowercase: true,
+            validate(value) {
+                if (!validator.isEmail(value)) {
+                    throw new Error('email is validate')
+                }
             },
         },
-    ],
+        password: {
+            type: String,
+            required: true,
+            minlength: 6,
+            trim: true,
+        },
+        tokens: [
+            {
+                token: {
+                    type: String,
+                },
+            },
+        ],
+    },
+    {
+        timestamps: true,
+        toObject: { virtuals: true },
+        toJSON: { virtuals: true },
+    }
+)
+
+UserSchema.virtual('course', {
+    ref: 'Course',
+    localField: '_id',
+    foreignField: 'owner',
 })
+
 UserSchema.pre('save', async function (next) {
     const user = this
     if (user.isModified('password')) {
@@ -46,6 +61,13 @@ UserSchema.pre('save', async function (next) {
     }
     next()
 })
+
+UserSchema.pre('remove', async function (next) {
+    const user = this
+    await Course.deleteMany({ owner: user._id })
+    next()
+})
+
 UserSchema.methods.generateAuthToken = async function () {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() }, 'thisismynewcourse')

@@ -1,6 +1,6 @@
 const { update } = require('../model/User')
 const User = require('../model/User')
-
+const { mongooseToObject } = require('../../util/mongoose')
 const addUser = async (req, res) => {
     try {
         const user = new User(req.body)
@@ -21,8 +21,7 @@ const getAllUsers = async (req, res) => {
 }
 const getUserbyID = async (req, res) => {
     try {
-        console.log('req', req.user)
-        const user = await User.findById(req.user._id)
+        const user = await User.findById(req.user._id).populate('course').exec()
         return res.status(200).send(user)
     } catch (error) {
         return res.send(error)
@@ -58,10 +57,20 @@ const deleteUserbyID = async (req, res) => {
         return res.status(400).send(error)
     }
 }
+const removeUserbyID = async (req, res) => {
+    try {
+        await req.user.remove()
+        return res.status(200).send(true)
+    } catch (error) {
+        return res.status(400).send(error)
+    }
+}
+
 module.exports = {
     addUser,
     getAllUsers,
     getUserbyID,
     updateUserbyID,
     deleteUserbyID,
+    removeUserbyID,
 }

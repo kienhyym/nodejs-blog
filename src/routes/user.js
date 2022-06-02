@@ -8,8 +8,10 @@ const {
     getUserbyID,
     updateUserbyID,
     deleteUserbyID,
+    removeUserbyID,
 } = require('../app/controllers/UserController')
 
+router.delete('/delete', auth, removeUserbyID)
 router.delete('/', auth, deleteUserbyID)
 router.patch('/', auth, updateUserbyID)
 router.get('/', auth, getUserbyID)
