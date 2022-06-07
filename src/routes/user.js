@@ -1,16 +1,15 @@
-const express = require('express')
-const auth = require('../app/middleware/auth')
-
-const router = express.Router()
-const {
+import express from 'express'
+import auth from '../app/middleware/auth'
+import {
     addUser,
     getAllUsers,
     getUserbyID,
     updateUserbyID,
     deleteUserbyID,
     removeUserbyID,
-} = require('../app/controllers/UserController')
+} from '../app/controllers/UserController'
 
+const router = express.Router()
 router.delete('/delete', auth, removeUserbyID)
 router.delete('/', auth, deleteUserbyID)
 router.patch('/', auth, updateUserbyID)
@@ -18,4 +17,4 @@ router.get('/', auth, getUserbyID)
 router.get('/users', auth, getAllUsers)
 router.post('/', addUser)
 
-module.exports = router
+export default router

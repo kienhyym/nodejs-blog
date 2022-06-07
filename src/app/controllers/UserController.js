@@ -1,6 +1,5 @@
-const { update } = require('../model/User')
-const User = require('../model/User')
-const { mongooseToObject } = require('../../util/mongoose')
+import User from '../model/User'
+
 const addUser = async (req, res) => {
     try {
         const user = new User(req.body)
@@ -66,7 +65,7 @@ const removeUserbyID = async (req, res) => {
     }
 }
 
-module.exports = {
+export {
     addUser,
     getAllUsers,
     getUserbyID,

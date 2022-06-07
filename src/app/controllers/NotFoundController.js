@@ -4,4 +4,4 @@ class NotFoundController {
     }
 }
 
-module.exports = new NotFoundController()
+export default new NotFoundController()

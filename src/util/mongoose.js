@@ -4,7 +4,4 @@ const mutipleMongooseToObject = (object) => {
 const mongooseToObject = (object) => {
     return object ? object.toObject() : object
 }
-module.exports = {
-    mutipleMongooseToObject,
-    mongooseToObject,
-}
+export { mutipleMongooseToObject, mongooseToObject }

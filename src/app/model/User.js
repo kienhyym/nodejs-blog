@@ -1,8 +1,14 @@
-const bcrypt = require('bcryptjs')
-const mongoose = require('mongoose')
-var validator = require('validator')
-const jwt = require('jsonwebtoken')
-const Course = require('../model/Course')
+import bcrypt from 'bcryptjs'
+import mongoose from 'mongoose'
+import validator from 'validator'
+import jwt from 'jsonwebtoken'
+import Course from '../model/Course'
+import {
+    ACCESS_TOKEN_LIFE,
+    SECRET,
+    REFRESH_SECRET,
+    REFRESH_TOKEN_LIFE,
+} from '../../config/contain'
 
 const Schema = mongoose.Schema
 
@@ -38,6 +44,9 @@ const UserSchema = new Schema(
                 token: {
                     type: String,
                 },
+                refreshToken: {
+                    type: String,
+                },
             },
         ],
     },
@@ -70,11 +79,24 @@ UserSchema.pre('remove', async function (next) {
 
 UserSchema.methods.generateAuthToken = async function () {
     const user = this
-    const token = jwt.sign({ _id: user._id.toString() }, 'thisismynewcourse')
-    user.tokens = user.tokens.concat({ token })
-    console.log('X_X_XX__XX_X_X_X_X_userToken', user)
+    const token = jwt.sign({ _id: user._id.toString() }, SECRET, {
+        algorithm: 'HS256',
+        expiresIn: ACCESS_TOKEN_LIFE,
+    })
+    const refreshToken = jwt.sign(
+        { _id: user._id.toString() },
+        REFRESH_SECRET,
+        {
+            algorithm: 'HS256',
+            expiresIn: REFRESH_TOKEN_LIFE,
+        }
+    )
+    user.tokens = user.tokens.concat({ token, refreshToken })
     await user.save()
-    return token
+    return {
+        token,
+        refreshToken,
+    }
 }
 UserSchema.methods.toJSON = function () {
     const user = this
@@ -100,4 +122,4 @@ UserSchema.statics.findByCredentials = async (email, password) => {
 }
 
 const User = mongoose.model('User', UserSchema)
-module.exports = User
+export default User

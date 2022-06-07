@@ -1,8 +1,7 @@
-const express = require('express')
+import express from 'express'
+import { weatherControler } from '../app/controllers/WeatherControler'
+
 const router = express.Router()
-
-const { weatherControler } = require('../app/controllers/WeatherControler')
-
 router.get('/', weatherControler)
 
-module.exports = router
+export default router

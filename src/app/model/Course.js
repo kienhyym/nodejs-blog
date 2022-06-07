@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+import mongoose from 'mongoose'
 
 const courseSchema = new Schema({
     name: { type: String, maxlength: 225 },
@@ -15,4 +15,4 @@ const courseSchema = new Schema({
     },
 })
 const Course = mongoose.model('Course', courseSchema)
-module.exports = Course
+export default Course

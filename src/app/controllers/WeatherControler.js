@@ -1,4 +1,4 @@
-const axios = require('axios')
+import axios from 'axios'
 
 const weatherControler = async (req, res) => {
     const data = await axios.get(
@@ -7,6 +7,4 @@ const weatherControler = async (req, res) => {
     return res.render('weather', { weather: data.data })
 }
 
-module.exports = {
-    weatherControler,
-}
+export { weatherControler }

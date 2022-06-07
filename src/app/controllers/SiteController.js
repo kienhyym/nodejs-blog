@@ -1,5 +1,5 @@
-const Course = require('../model/Course')
-const { mutipleMongooseToObject } = require('../../util/mongoose')
+import Course from '../model/Course'
+import { mutipleMongooseToObject } from '../../util/mongoose'
 
 class SiteController {
     index(req, res, next) {
@@ -20,4 +20,4 @@ class SiteController {
     }
 }
 
-module.exports = new SiteController()
+export default new SiteController()

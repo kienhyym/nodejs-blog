@@ -1,8 +1,7 @@
-const express = require('express')
+import express from 'express'
+import notFoundController from '../app/controllers/NotFoundController'
+
 const router = express.Router()
-
-const notFoundController = require('../app/controllers/NotFoundController')
-
 router.get('/', notFoundController.index)
 
-module.exports = router
+export default router

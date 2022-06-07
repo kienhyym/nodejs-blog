@@ -1,9 +1,5 @@
-const Courses = require('../model/Course')
-const {
-    mongooseToObject,
-    mutipleMongooseToObject,
-} = require('../../util/mongoose')
-const Course = require('../model/Course')
+import Courses from '../model/Course'
+import { mongooseToObject, mutipleMongooseToObject } from '../../util/mongoose'
 
 const index = async (req, res, next) => {
     Courses.findOne({ slug: req.params.slug })
@@ -34,7 +30,7 @@ const store = async (req, res, next) => {
         .catch(next)
 }
 const list = async (req, res, next) => {
-    Course.find({})
+    Courses.find({})
         .then((data) => {
             res.render('course/my_courses', {
                 courses: mutipleMongooseToObject(data),
@@ -57,12 +53,12 @@ const detail = async (req, res) => {
 }
 const update = async (req, res, next) => {
     const formdata = req.body
-    Course.updateOne({ slug: req.params.slug }, formdata)
+    Courses.updateOne({ slug: req.params.slug }, formdata)
         .then(() => res.redirect('/course/my_courses'))
         .catch(next)
 }
 
-module.exports = {
+export default {
     index,
     create,
     store,

@@ -1,10 +1,10 @@
-const newsRoute = require('./news')
-const sitesRoute = require('./site')
-const coursesRoute = require('./courses')
-const notFoundRoute = require('./notFound')
-const weatherRoute = require('./weather')
-const userRoute = require('./User')
-const authRoute = require('./auth')
+import newsRoute from './news'
+import sitesRoute from './site'
+import coursesRoute from './courses'
+import notFoundRoute from './notFound'
+import weatherRoute from './weather'
+import userRoute from './User'
+import authRoute from './auth'
 
 const routes = (app) => {
     app.use('/news', newsRoute)
@@ -15,4 +15,4 @@ const routes = (app) => {
     app.use('/', sitesRoute)
     app.use('*', notFoundRoute)
 }
-module.exports = routes
+export default routes

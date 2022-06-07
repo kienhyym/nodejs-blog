@@ -1,12 +1,15 @@
-const express = require('express')
-const morgan = require('morgan')
-const { engine } = require('express-handlebars')
-const path = require('path')
-const routes = require('./routes')
-const db = require('./config/db')
+import express from 'express'
+import morgan from 'morgan'
+import path from 'path'
+import { engine } from 'express-handlebars'
+import { fileURLToPath } from 'url'
+import routes from './routes/index.js'
+import db from './config/db/index.js'
 
 const app = express()
 const port = process.env.port || 3000
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 db.connect()
 

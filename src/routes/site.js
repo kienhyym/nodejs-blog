@@ -1,10 +1,10 @@
-const express = require('express')
-const router = express.Router()
+import express from 'express'
+import siteController from '../app/controllers/siteController'
 
-const siteController = require('../app/controllers/SiteController')
+const router = express.Router()
 router.get('/about', siteController.about)
 router.get('/help', siteController.help)
 router.get('/search', siteController.search)
 router.get('/', siteController.index)
 
-module.exports = router
+export default router
