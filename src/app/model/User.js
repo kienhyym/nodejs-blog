@@ -121,5 +121,32 @@ UserSchema.statics.findByCredentials = async (email, password) => {
     return user
 }
 
+UserSchema.statics.onRefreshToken = async (refreshToken) => {
+    const data = jwt.verify(refreshToken, REFRESH_SECRET)
+    const user = await User.findOne({
+        _id: data._id,
+        'tokens.refreshToken': refreshToken,
+    })
+    if (!user) {
+        throw new Error({
+            name: 'error',
+            message: 'no account',
+        })
+    }
+    user.tokens = user.tokens.filter((item) => {
+        return item.refreshToken !== refreshToken
+    })
+    const token = jwt.sign({ _id: user._id }, SECRET, {
+        algorithm: 'HS256',
+        expiresIn: ACCESS_TOKEN_LIFE,
+    })
+    const newRefreshToken = jwt.sign({ _id: user._id }, REFRESH_SECRET, {
+        algorithm: 'HS256',
+        expiresIn: REFRESH_TOKEN_LIFE,
+    })
+    user.tokens = user.tokens.concat({ token, refreshToken: newRefreshToken })
+    return user
+}
+
 const User = mongoose.model('User', UserSchema)
 export default User

@@ -13,7 +13,6 @@ const login = async (req, res) => {
             req.body.email,
             req.body.password
         )
-        console.log(user)
         const token = await user.generateAuthToken()
         return res.status(201).send({ user, token })
     } catch (error) {
@@ -34,26 +33,9 @@ const logout = async (req, res) => {
 }
 
 const onRefreshToken = async (req, res) => {
-    const refreshTokenFromClient = req.body.refreshToken
     try {
-        const data = jwt.verify(refreshTokenFromClient, REFRESH_SECRET)
-        console.log(data)
-        const user = await User.findOne({
-            _id: data._id,
-            'tokens.refreshToken': refreshTokenFromClient,
-        })
-        user.tokens = user.tokens.filter((item) => {
-            return item.refreshToken !== refreshTokenFromClient
-        })
-        const token = jwt.sign({ _id: user._id }, SECRET, {
-            algorithm: 'HS256',
-            expiresIn: ACCESS_TOKEN_LIFE,
-        })
-        const refreshToken = jwt.sign({ _id: user._id }, REFRESH_SECRET, {
-            algorithm: 'HS256',
-            expiresIn: REFRESH_TOKEN_LIFE,
-        })
-        user.tokens = user.tokens.concat({ token, refreshToken })
+        const refreshTokenFromClient = req.body.refreshToken
+        const user = await User.onRefreshToken(refreshTokenFromClient)
         await user.save()
         return res.status(200).send(user.tokens)
     } catch (error) {
