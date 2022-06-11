@@ -12,8 +12,21 @@ const addUser = async (req, res) => {
 }
 const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find({})
-        return res.status(200).send(users)
+        const limit = req.query.limit
+        const skip = req.query.skip
+        const age = req.query.age
+        const conditions = {}
+        if (age) conditions.age = Number(age)
+        const users = await User.find({ ...conditions })
+            .limit(limit)
+            .skip(skip)
+            .sort({ createdAt: 'desc' })
+            .exec()
+        return res.status(200).send({
+            users,
+            page: Number(skip) + 1,
+            totalPage: users.length / Number(skip),
+        })
     } catch (error) {
         return res.send(error)
     }
